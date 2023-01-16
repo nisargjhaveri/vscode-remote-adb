@@ -1,5 +1,6 @@
 {
-	"name": "remote-android-debugging",
+	"name": "remote-android",
+	"publisher": "nisargjhaveri",
 	"displayName": "Remote Android Debugging",
 	"description": "",
 	"version": "0.0.1",
@@ -10,13 +11,13 @@
 		"Other"
 	],
 	"activationEvents": [
-        "onCommand:remote-android-debugging.helloWorld"
+		"onCommand:remote-android.startServer"
 	],
 	"main": "./dist/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "remote-android-debugging.helloWorld",
+				"command": "remote-android.startServer",
 				"title": "Hello World"
 			}
 		]
