@@ -19,6 +19,10 @@
 			{
 				"command": "remote-android.openExternal",
 				"title": "Open Remote Android in browser"
+			},
+			{
+				"command": "remote-android.stopServer",
+				"title": "Stop Remote Android server"
 			}
 		]
 	},
