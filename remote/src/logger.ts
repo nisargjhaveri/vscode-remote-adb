@@ -2,13 +2,7 @@ import * as vscode from 'vscode';
 import { Logger } from 'remote-adb';
 
 export class OutputLogger implements Logger {
-    private channel = vscode.window.createOutputChannel("Remote Android");
-
-    private getFormattedTime()
-    {
-        let time = new Date();
-        return `${time.getFullYear()}-${time.getMonth()+1}-${time.getDate()} ${time.getHours()}:${time.getMinutes()}`;
-    }
+    private channel = vscode.window.createOutputChannel("Remote Android", { log: true });
 
     private formatSingleMessage(message: any)
     {
@@ -30,8 +24,7 @@ export class OutputLogger implements Logger {
     }
 
     private format(...data: any[]) {
-        const message = data.map(this.formatSingleMessage).join(' ');
-        return `[${this.getFormattedTime()}] ${message}`;
+        return data.map(this.formatSingleMessage).join(' ');
     }
 
     log(...data: any[]): void {
@@ -39,15 +32,15 @@ export class OutputLogger implements Logger {
     }
 
     debug(...data: any[]): void {
-        this.log(...data);
+        this.channel.debug(this.format(...data));
     }
     info(...data: any[]): void {
-        this.log(...data);
+        this.channel.info(this.format(...data));
     }
     warn(...data: any[]): void {
-        this.log(...data);
+        this.channel.warn(this.format(...data));
     }
     error(...data: any[]): void {
-        this.log(...data);
+        this.channel.error(this.format(...data));
     }
 }
