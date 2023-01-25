@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import { Server, setLogger as setRemoteAdbLogger } from 'remote-adb';
 
-import { OutputLogger } from './logger';
+import { logger } from './logger';
 
 let server: Server|undefined = undefined;
 let serverUri: vscode.Uri|undefined = undefined;
@@ -16,7 +16,7 @@ async function ensureServerListening() {
 }
 
 export function activate(context: vscode.ExtensionContext) {
-	setRemoteAdbLogger(new OutputLogger());
+	setRemoteAdbLogger(logger);
 
 	context.subscriptions.push(vscode.commands.registerCommand('remote-android.openExternal', async () => {
 		await ensureServerListening();
