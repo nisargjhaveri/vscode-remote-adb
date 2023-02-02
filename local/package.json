@@ -38,6 +38,36 @@
 				"view": "remote-android",
 				"contents": "Welcome to Remote Android Debugging. Your connected devices will show up here."
 			}
+		],
+		"menus": {
+			"view/item/context": [
+				{
+					"command": "remote-android.connectDevice",
+					"when": "viewItem == remoteAndroidDisconnected",
+					"group": "inline"
+				},
+				{
+					"command": "remote-android.disconnectDevice",
+					"when": "viewItem == remoteAndroidConnected",
+					"group": "inline"
+				}
+			]
+		},
+		"commands": [
+			{
+				"command": "remote-android.connectDevice",
+				"title": "Connect to Remote",
+				"shortTitle": "Connect",
+				"icon": "$(plug)",
+				"enablement": "view == remote-android"
+			},
+			{
+				"command": "remote-android.disconnectDevice",
+				"title": "Disconnect",
+				"shortTitle": "Disconnect",
+				"icon": "$(debug-disconnect)",
+				"enablement": "view == remote-android"
+			}
 		]
 	},
 	"scripts": {

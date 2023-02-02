@@ -1,11 +1,18 @@
 import * as vscode from 'vscode';
 import { UsbDeviceManager, RemoteAdbDevice } from 'remote-adb';
 
-class RemoteAndroidTreeItem extends vscode.TreeItem {
+export class RemoteAndroidTreeItem extends vscode.TreeItem {
+	device: RemoteAdbDevice;
+
 	constructor(device: RemoteAdbDevice) {
 		super(`${device.name} (${device.serial})`);
 
+		this.device = device;
 		this.id = device.serial;
+
+		this.description = device.connected ? "Connected" : undefined;
+
+		this.contextValue = device.connected ? "remoteAndroidConnected" : "remoteAndroidDisconnected";
 	}
 }
 
@@ -20,11 +27,9 @@ export class RemoteAndroidTreeDataProvider implements vscode.TreeDataProvider<Re
 			return;
 		}
 
-		UsbDeviceManager.getDevices().then(() => {
-			UsbDeviceManager.monitorDevices((devices) => {
-				this.devices = devices;
-				this._onDidChangeTreeData.fire();
-			});
+		UsbDeviceManager.monitorDevices((devices) => {
+			this.devices = devices;
+			this._onDidChangeTreeData.fire();
 		});
 	}
 
