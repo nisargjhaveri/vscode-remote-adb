@@ -11,7 +11,8 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:remote-android.openExternal"
+		"onCommand:remote-android.openExternal",
+		"onCommand:remote-android.getExternalUrl"
 	],
 	"main": "./dist/extension.js",
 	"contributes": {
@@ -55,6 +56,6 @@
 		"webpack-node-externals": "^3.0.0"
 	},
 	"dependencies": {
-		"remote-adb": "^2.1.0"
+		"remote-adb": "^2.2.0"
 	}
 }
