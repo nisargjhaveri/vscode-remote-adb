@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { UsbDeviceManager, RemoteAdbDevice } from 'remote-adb';
+import { RemoteAdbDevice, UsbDeviceManager, TcpDeviceManager } from 'remote-adb';
 
 export class RemoteAndroidTreeItem extends vscode.TreeItem {
 	device: RemoteAdbDevice;
@@ -20,7 +20,8 @@ export class RemoteAndroidTreeDataProvider implements vscode.TreeDataProvider<Re
 	private _onDidChangeTreeData: vscode.EventEmitter<RemoteAndroidTreeItem | undefined | void> = new vscode.EventEmitter<RemoteAndroidTreeItem | undefined | void>();
 	readonly onDidChangeTreeData: vscode.Event<RemoteAndroidTreeItem | undefined | void> = this._onDidChangeTreeData.event;
 
-	private devices: RemoteAdbDevice[] = [];
+	private usbDevices: RemoteAdbDevice[] = [];
+	private tcpDevices: RemoteAdbDevice[] = [];
 
 	constructor() {
 		if (!UsbDeviceManager.isSupported()) {
@@ -28,7 +29,11 @@ export class RemoteAndroidTreeDataProvider implements vscode.TreeDataProvider<Re
 		}
 
 		UsbDeviceManager.monitorDevices((devices) => {
-			this.devices = devices;
+			this.usbDevices = devices;
+			this._onDidChangeTreeData.fire();
+		});
+		TcpDeviceManager.monitorDevices((devices) => {
+			this.tcpDevices = devices;
 			this._onDidChangeTreeData.fire();
 		});
 	}
@@ -41,7 +46,7 @@ export class RemoteAndroidTreeDataProvider implements vscode.TreeDataProvider<Re
 			return [];
 		}
 		else {
-			return this.devices.map((d) => new RemoteAndroidTreeItem(d));
+			return this.usbDevices.concat(this.tcpDevices).map((d) => new RemoteAndroidTreeItem(d));
 		}
 	}
 }
