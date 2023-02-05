@@ -51,6 +51,16 @@ export function activate(context: vscode.ExtensionContext) {
 			throw new Error(`Cannot connect to '${serial}'. Please enter a valid hostname and port to connect`);
 		}
 	}));
+
+	context.subscriptions.push(vscode.commands.registerCommand('remote-android.removeTcpDevice', async (treeItem: RemoteAndroidTreeItem) => {
+		let device = treeItem.device;
+
+		if (!device) {
+			return;
+		}
+
+		TcpDeviceManager.removeDevice(device.serial);
+	}));
 }
 
 export function deactivate() {}

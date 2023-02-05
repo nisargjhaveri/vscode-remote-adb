@@ -4,7 +4,7 @@ import { RemoteAdbDevice, UsbDeviceManager, TcpDeviceManager } from 'remote-adb'
 export class RemoteAndroidTreeItem extends vscode.TreeItem {
 	device: RemoteAdbDevice;
 
-	constructor(device: RemoteAdbDevice) {
+	constructor(device: RemoteAdbDevice, type: "USB"|"TCP") {
 		super(`${device.name} (${device.serial})`);
 
 		this.device = device;
@@ -12,7 +12,17 @@ export class RemoteAndroidTreeItem extends vscode.TreeItem {
 
 		this.description = device.connected ? "Connected" : undefined;
 
-		this.contextValue = device.connected ? "remoteAndroidConnected" : "remoteAndroidDisconnected";
+		let context = [
+			"remote-android",
+			device.connected ? "connected" : "disconnected",
+			type,
+		];
+
+		if (type === "TCP" && TcpDeviceManager.canRemoveDevice(device.serial)) {
+			context.push("removable");
+		}
+
+		this.contextValue = `;${context.join(";")};`;
 	}
 }
 
@@ -46,7 +56,8 @@ export class RemoteAndroidTreeDataProvider implements vscode.TreeDataProvider<Re
 			return [];
 		}
 		else {
-			return this.usbDevices.concat(this.tcpDevices).map((d) => new RemoteAndroidTreeItem(d));
+			return this.usbDevices.map((d) => new RemoteAndroidTreeItem(d, "USB"))
+				.concat(this.tcpDevices.map((d) => new RemoteAndroidTreeItem(d, "TCP")));
 		}
 	}
 }

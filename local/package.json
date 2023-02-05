@@ -49,14 +49,19 @@
 			],
 			"view/item/context": [
 				{
+					"command": "remote-android.removeTcpDevice",
+					"when": "viewItem =~ /;removable;/",
+					"group": "inline@1"
+				},
+				{
 					"command": "remote-android.connectDevice",
-					"when": "viewItem == 'remoteAndroidDisconnected'",
-					"group": "inline"
+					"when": "viewItem =~ /;disconnected;/",
+					"group": "inline@2"
 				},
 				{
 					"command": "remote-android.disconnectDevice",
-					"when": "viewItem == 'remoteAndroidConnected'",
-					"group": "inline"
+					"when": "viewItem =~ /;connected;/",
+					"group": "inline@2"
 				}
 			]
 		},
@@ -80,6 +85,12 @@
 				"title": "Add TCP Device",
 				"icon": "$(plus)",
 				"category": "Remote Android"
+			},
+			{
+				"command": "remote-android.removeTcpDevice",
+				"title": "Remove device",
+				"icon": "$(trash)",
+				"enablement": "view == remote-android"
 			}
 		]
 	},
