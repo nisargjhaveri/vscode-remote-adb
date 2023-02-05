@@ -40,15 +40,22 @@
 			}
 		],
 		"menus": {
+			"view/title": [
+				{
+					"command": "remote-android.addTcpDevice",
+					"group": "navigation",
+					"when": "view == remote-android"
+				}
+			],
 			"view/item/context": [
 				{
 					"command": "remote-android.connectDevice",
-					"when": "viewItem == remoteAndroidDisconnected",
+					"when": "viewItem == 'remoteAndroidDisconnected'",
 					"group": "inline"
 				},
 				{
 					"command": "remote-android.disconnectDevice",
-					"when": "viewItem == remoteAndroidConnected",
+					"when": "viewItem == 'remoteAndroidConnected'",
 					"group": "inline"
 				}
 			]
@@ -67,6 +74,12 @@
 				"shortTitle": "Disconnect",
 				"icon": "$(debug-disconnect)",
 				"enablement": "view == remote-android"
+			},
+			{
+				"command": "remote-android.addTcpDevice",
+				"title": "Add TCP Device",
+				"icon": "$(plus)",
+				"category": "Remote Android"
 			}
 		]
 	},
