@@ -1,39 +1,22 @@
 import * as vscode from 'vscode';
 import { setLogger as setRemoteAdbLogger, TcpDeviceManager } from 'remote-adb';
-import { RemoteAndroidTreeDataProvider, RemoteAndroidTreeItem } from './remoteAndroidDevices';
+import { RemoteAdbDeviceWrapper, RemoteAndroidDeviceListManager } from './remoteAndroidDevices';
 import { logger } from './logger';
-import { getServerConnection } from './serverConnection';
 
 export function activate(context: vscode.ExtensionContext) {
 	setRemoteAdbLogger(logger);
 
+	const remoteAndroidDeviceListManager = new RemoteAndroidDeviceListManager();
 	let treeView = vscode.window.createTreeView("remote-android", {
-		"treeDataProvider": new RemoteAndroidTreeDataProvider(),
+		"treeDataProvider": remoteAndroidDeviceListManager,
 	});
 
-	context.subscriptions.push(vscode.commands.registerCommand('remote-android.connectDevice', async (treeItem: RemoteAndroidTreeItem) => {
-		let device = treeItem.device;
-
-		if (!device) {
-			return;
-		}
-
-		if (!device.connected) {
-			const serverConnection = await getServerConnection();
-			await device.connect(serverConnection);
-		}
+	context.subscriptions.push(vscode.commands.registerCommand('remote-android.connectDevice', async (treeItem: RemoteAdbDeviceWrapper) => {
+		await remoteAndroidDeviceListManager.connect(treeItem);
 	}));
 
-	context.subscriptions.push(vscode.commands.registerCommand('remote-android.disconnectDevice', async (treeItem: RemoteAndroidTreeItem) => {
-		let device = treeItem.device;
-
-		if (!device) {
-			return;
-		}
-
-		if (device.connected) {
-			await device.disconnect();
-		}
+	context.subscriptions.push(vscode.commands.registerCommand('remote-android.disconnectDevice', async (treeItem: RemoteAdbDeviceWrapper) => {
+		await remoteAndroidDeviceListManager.disconnect(treeItem);
 	}));
 
 	context.subscriptions.push(vscode.commands.registerCommand('remote-android.addTcpDevice', async () => {
@@ -52,7 +35,7 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 	}));
 
-	context.subscriptions.push(vscode.commands.registerCommand('remote-android.removeTcpDevice', async (treeItem: RemoteAndroidTreeItem) => {
+	context.subscriptions.push(vscode.commands.registerCommand('remote-android.removeTcpDevice', async (treeItem: RemoteAdbDeviceWrapper) => {
 		let device = treeItem.device;
 
 		if (!device) {
