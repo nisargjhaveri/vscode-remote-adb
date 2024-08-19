@@ -21,24 +21,25 @@ export class RemoteAndroidDeviceListManager implements vscode.TreeDataProvider<R
 	private tcpDevices: RemoteAdbDevice[] = [];
 
 	constructor() {
-		if (!UsbDeviceManager.isSupported()) {
-			return;
+		if (UsbDeviceManager.isSupported()) {
+			UsbDeviceManager.monitorDevices((devices) => {
+				this.usbDevices = devices;
+				this.usbDevices.forEach((d) => {
+					this.populateDeviceWrapper(d, "USB");
+				});
+				this._onDidChangeTreeData.fire();
+			});
 		}
 
-		UsbDeviceManager.monitorDevices((devices) => {
-			this.usbDevices = devices;
-			this.usbDevices.forEach((d) => {
-				this.populateDeviceWrapper(d, "USB");
+		if (TcpDeviceManager.isSupported()) {
+			TcpDeviceManager.monitorDevices((devices) => {
+				this.tcpDevices = devices;
+				this.tcpDevices.forEach((d) => {
+					this.populateDeviceWrapper(d, "TCP");
+				});
+				this._onDidChangeTreeData.fire();
 			});
-			this._onDidChangeTreeData.fire();
-		});
-		TcpDeviceManager.monitorDevices((devices) => {
-			this.tcpDevices = devices;
-			this.tcpDevices.forEach((d) => {
-				this.populateDeviceWrapper(d, "TCP");
-			});
-			this._onDidChangeTreeData.fire();
-		});
+		}
 	}
 
 	getTreeItem(element: RemoteAdbDeviceWrapper): vscode.TreeItem | Thenable<vscode.TreeItem> {
