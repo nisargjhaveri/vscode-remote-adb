@@ -5,6 +5,7 @@ import { getServerConnection } from './serverConnection';
 export class RemoteAdbDeviceWrapper {
 	device: RemoteAdbDevice;
 	type: "USB" | "TCP";
+	isConnecting: boolean = false;
 
 	constructor(device: RemoteAdbDevice, type: "USB" | "TCP") {
 		this.device = device;
@@ -51,9 +52,11 @@ export class RemoteAndroidDeviceListManager implements vscode.TreeDataProvider<R
 
 		let context = [
 			"remote-android",
-			device.connected ? "connected" : "disconnected",
+			device.connected ? "connected" : element.isConnecting ? "connecting" : "disconnected",
 			element.type,
 		];
+
+		treeItem.iconPath = device.connected ? new vscode.ThemeIcon("check") : element.isConnecting ? new vscode.ThemeIcon("loading~spin") : undefined;
 
 		if (element.type === "TCP" && TcpDeviceManager.canRemoveDevice(device.serial)) {
 			context.push("removable");
@@ -75,12 +78,30 @@ export class RemoteAndroidDeviceListManager implements vscode.TreeDataProvider<R
 	}
 
 	async connect(element: RemoteAdbDeviceWrapper) {
-		const serverConnection = await getServerConnection();
-		await element.device.connect(serverConnection);
+		if (!element.device.connected && !element.isConnecting) {
+			try {
+				this.setConnecting(element, true);
+				const serverConnection = await getServerConnection();
+				await element.device.connect(serverConnection);
+			} catch(e) {
+				throw e;
+			} finally {
+				this.setConnecting(element, false);
+			}
+		}
 	}
 
 	async disconnect(element: RemoteAdbDeviceWrapper) {
 		await element.device.disconnect();
+	}
+
+	private setConnecting(element: RemoteAdbDeviceWrapper, isConnecting: boolean) {
+		if (element.isConnecting === isConnecting) {
+			return;
+		}
+
+		element.isConnecting = isConnecting;
+		this._onDidChangeTreeData.fire(element);
 	}
 
 	private getDeviceWrapper(device: RemoteAdbDevice): RemoteAdbDeviceWrapper {
