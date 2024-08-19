@@ -1,2 +1,1 @@
-Remote Android Debugging in VS Code
-===
+# vscode-remote-adb
