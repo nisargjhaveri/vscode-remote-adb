@@ -56,6 +56,6 @@
 		"webpack-node-externals": "^3.0.0"
 	},
 	"dependencies": {
-		"remote-adb": "^2.2.0"
+		"remote-adb": "^2.3.0"
 	}
 }
