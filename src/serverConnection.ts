@@ -41,7 +41,7 @@ async function createServerConnection(server: string, password?: string): Promis
 
 export async function getServerConnection(): Promise<ServerConnection> {
     if (!_serverConnection) {
-        let uri: vscode.Uri|undefined = await vscode.commands.executeCommand("remote-android.getExternalUrl");
+        let uri: vscode.Uri|undefined = await vscode.commands.executeCommand("remote-adb.getExternalUrl");
 
         if (!uri) {
             throw new Error("Could not get server url");

@@ -52,7 +52,7 @@ export class RemoteAndroidDeviceListManager implements vscode.TreeDataProvider<R
 		treeItem.description = device.connected ? "Connected" : undefined;
 
 		let context = [
-			"remote-android",
+			"remote-adb",
 			device.connected ? "connected" : element.isConnecting ? "connecting" : "disconnected",
 			element.type,
 		];

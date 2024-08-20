@@ -7,19 +7,19 @@ export function activate(context: vscode.ExtensionContext) {
 	setRemoteAdbLogger(logger);
 
 	const remoteAndroidDeviceListManager = new RemoteAndroidDeviceListManager();
-	let treeView = vscode.window.createTreeView("remote-android", {
+	let treeView = vscode.window.createTreeView("remote-adb", {
 		"treeDataProvider": remoteAndroidDeviceListManager,
 	});
 
-	context.subscriptions.push(vscode.commands.registerCommand('remote-android.connectDevice', async (treeItem: RemoteAdbDeviceWrapper) => {
+	context.subscriptions.push(vscode.commands.registerCommand('remote-adb.connectDevice', async (treeItem: RemoteAdbDeviceWrapper) => {
 		await remoteAndroidDeviceListManager.connect(treeItem);
 	}));
 
-	context.subscriptions.push(vscode.commands.registerCommand('remote-android.disconnectDevice', async (treeItem: RemoteAdbDeviceWrapper) => {
+	context.subscriptions.push(vscode.commands.registerCommand('remote-adb.disconnectDevice', async (treeItem: RemoteAdbDeviceWrapper) => {
 		await remoteAndroidDeviceListManager.disconnect(treeItem);
 	}));
 
-	context.subscriptions.push(vscode.commands.registerCommand('remote-android.addTcpDevice', async () => {
+	context.subscriptions.push(vscode.commands.registerCommand('remote-adb.addTcpDevice', async () => {
 		let serial = await vscode.window.showInputBox({
 			"title": "Add a device via TCP/IP",
 			"placeHolder": "e.g. 192.168.0.2:5555",
@@ -35,7 +35,7 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 	}));
 
-	context.subscriptions.push(vscode.commands.registerCommand('remote-android.removeTcpDevice', async (treeItem: RemoteAdbDeviceWrapper) => {
+	context.subscriptions.push(vscode.commands.registerCommand('remote-adb.removeTcpDevice', async (treeItem: RemoteAdbDeviceWrapper) => {
 		let device = treeItem.device;
 
 		if (!device) {

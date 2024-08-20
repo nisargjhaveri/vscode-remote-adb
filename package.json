@@ -1,7 +1,7 @@
 {
-	"name": "remote-android-companion",
+	"name": "remote-adb",
 	"publisher": "nisargjhaveri",
-	"displayName": "Remote Android Companion",
+	"displayName": "Remote Android Debugging",
 	"description": "",
 	"version": "0.0.1",
 	"engines": {
@@ -10,8 +10,15 @@
 	"categories": [
 		"Other"
 	],
+	"keywords": [
+		"remote",
+		"remote development",
+		"adb",
+		"android",
+		"debugging"
+	],
 	"activationEvents": [
-		"onView:remote-android"
+		"onView:remote-adb"
 	],
 	"main": "./dist/extension.js",
 	"contributes": {
@@ -19,15 +26,15 @@
 			"activitybar": [
 				{
 					"icon": "$(device-mobile)",
-					"id": "remote-android-container",
+					"id": "remote-adb-container",
 					"title": "Remote Android"
 				}
 			]
 		},
 		"views": {
-			"remote-android-container": [
+			"remote-adb-container": [
 				{
-					"id": "remote-android",
+					"id": "remote-adb",
 					"name": "Remote Android",
 					"icon": "$(device-mobile)"
 				}
@@ -35,74 +42,74 @@
 		},
 		"viewsWelcome": [
 			{
-				"view": "remote-android",
+				"view": "remote-adb",
 				"contents": "Welcome to Remote Android Debugging. Your connected devices will show up here."
 			}
 		],
 		"menus": {
 			"view/title": [
 				{
-					"command": "remote-android.addTcpDevice",
+					"command": "remote-adb.addTcpDevice",
 					"group": "navigation",
-					"when": "view == remote-android"
+					"when": "view == remote-adb"
 				}
 			],
 			"view/item/context": [
 				{
-					"command": "remote-android.removeTcpDevice",
+					"command": "remote-adb.removeTcpDevice",
 					"when": "viewItem =~ /;removable;/",
 					"group": "inline@1"
 				},
 				{
-					"command": "remote-android.connectDevice",
+					"command": "remote-adb.connectDevice",
 					"when": "viewItem =~ /;disconnected;/",
 					"group": "inline@2"
 				},
 				{
-					"command": "remote-android.disconnectDevice",
+					"command": "remote-adb.disconnectDevice",
 					"when": "viewItem =~ /;connected;/",
 					"group": "inline@2"
 				},
 				{
-					"command": "remote-android.removeTcpDevice",
+					"command": "remote-adb.removeTcpDevice",
 					"when": "viewItem =~ /;removable;/"
 				},
 				{
-					"command": "remote-android.connectDevice",
+					"command": "remote-adb.connectDevice",
 					"when": "viewItem =~ /;disconnected;/"
 				},
 				{
-					"command": "remote-android.disconnectDevice",
+					"command": "remote-adb.disconnectDevice",
 					"when": "viewItem =~ /;connected;/"
 				}
 			]
 		},
 		"commands": [
 			{
-				"command": "remote-android.connectDevice",
+				"command": "remote-adb.connectDevice",
 				"title": "Connect to Remote",
 				"shortTitle": "Connect",
 				"icon": "$(plug)",
-				"enablement": "view == remote-android"
+				"enablement": "view == remote-adb"
 			},
 			{
-				"command": "remote-android.disconnectDevice",
+				"command": "remote-adb.disconnectDevice",
 				"title": "Disconnect from Remote",
 				"shortTitle": "Disconnect",
 				"icon": "$(debug-disconnect)",
-				"enablement": "view == remote-android"
+				"enablement": "view == remote-adb"
 			},
 			{
-				"command": "remote-android.addTcpDevice",
+				"command": "remote-adb.addTcpDevice",
 				"title": "Add TCP Device",
 				"icon": "$(plus)",
 				"category": "Remote Android"
 			},
 			{
-				"command": "remote-android.removeTcpDevice",
+				"command": "remote-adb.removeTcpDevice",
 				"title": "Remove device",
 				"icon": "$(trash)",
-				"enablement": "view == remote-android"
+				"enablement": "view == remote-adb"
 			}
 		]
 	},
