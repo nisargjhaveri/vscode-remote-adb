@@ -2,7 +2,8 @@
 	"name": "remote-adb",
 	"publisher": "nisargjhaveri",
 	"displayName": "Remote Android Debugging",
-	"description": "",
+	"description": "Connect local Android devices to remote machine for debugging",
+	"repository": "https://github.com/nisargjhaveri/vscode-remote-adb",
 	"version": "0.0.1",
 	"engines": {
 		"vscode": "^1.74.0"
