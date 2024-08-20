@@ -22,6 +22,9 @@
 		"onView:remote-adb"
 	],
 	"main": "./dist/extension.js",
+	"extensionKind": [
+		"ui"
+	],
 	"contributes": {
 		"viewsContainers": {
 			"activitybar": [
