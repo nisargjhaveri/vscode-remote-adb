@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { ServerConnection } from 'remote-adb/dist/client';
+import { ServerConnection } from 'remote-adb/client';
 import { logger } from './logger';
 
 let _serverConnection: ServerConnection;

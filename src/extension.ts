@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
-import { setLogger as setRemoteAdbLogger } from 'remote-adb/dist/common/logger';
-import { TcpDeviceManager } from 'remote-adb/dist/client';
+import { setLogger as setRemoteAdbLogger } from 'remote-adb/logger';
+import { TcpDeviceManager } from 'remote-adb/client';
 import { RemoteAdbDeviceWrapper, RemoteAndroidDeviceListManager } from './remoteAndroidDevices';
 import { logger } from './logger';
 

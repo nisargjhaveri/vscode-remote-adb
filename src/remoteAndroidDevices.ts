@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { RemoteAdbDevice, UsbDeviceManager, TcpDeviceManager } from 'remote-adb/dist/client';
+import { RemoteAdbDevice, UsbDeviceManager, TcpDeviceManager } from 'remote-adb/client';
 import { getServerConnection } from './serverConnection';
 
 export class RemoteAdbDeviceWrapper {
