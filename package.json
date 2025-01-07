@@ -26,17 +26,8 @@
 		"ui"
 	],
 	"contributes": {
-		"viewsContainers": {
-			"activitybar": [
-				{
-					"icon": "$(device-mobile)",
-					"id": "remote-adb-container",
-					"title": "Remote Android"
-				}
-			]
-		},
 		"views": {
-			"remote-adb-container": [
+			"debug": [
 				{
 					"id": "remote-adb",
 					"name": "Remote Android",
