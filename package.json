@@ -31,7 +31,8 @@
 				{
 					"id": "remote-adb",
 					"name": "Remote Android",
-					"icon": "$(device-mobile)"
+					"icon": "$(device-mobile)",
+					"when": "remoteName"
 				}
 			]
 		},
