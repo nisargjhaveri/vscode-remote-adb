@@ -45,11 +45,12 @@ export class RemoteAndroidDeviceListManager implements vscode.TreeDataProvider<R
 	getTreeItem(element: RemoteAdbDeviceWrapper): vscode.TreeItem | Thenable<vscode.TreeItem> {
 		const device = element.device;
 
-		const treeItem = new vscode.TreeItem(`${device.name} (${device.serial})`);
+		const treeItemLabel = device.name === device.serial ? device.serial : `${device.name} (${device.serial})`;
+		const treeItem = new vscode.TreeItem(treeItemLabel);
 
 		treeItem.id = device.serial;
 
-		treeItem.description = device.connected ? "Connected" : undefined;
+		treeItem.description = device.connected ? `Connected as ${device.remoteSerial}` : undefined;
 
 		let context = [
 			"remote-adb",
