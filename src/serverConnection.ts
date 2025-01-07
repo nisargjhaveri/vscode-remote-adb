@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import { ServerConnection } from 'remote-adb/client';
 import { logger } from './logger';
 
-let _serverConnection: ServerConnection;
+let _serverConnection: ServerConnection|undefined = undefined;
 
 function getPassword(password?: string) {
     //TODO: Ask for password if not provided?
@@ -40,7 +40,18 @@ async function createServerConnection(server: string, password?: string): Promis
 }
 
 export async function getServerConnection(): Promise<ServerConnection> {
+    if (_serverConnection) {
+        logger.log("Checking server status by connecting to server");
+        const status = await _serverConnection.getServerStatus();
+
+        if (status._error) {
+            logger.log(`Cannot get server status: ${status._error}`);
+            _serverConnection = undefined;
+        }
+    }
+
     if (!_serverConnection) {
+        logger.log("Getting server url from companion extension");
         let uri: vscode.Uri|undefined = await vscode.commands.executeCommand("remote-adb.getExternalUrl");
 
         if (!uri) {
