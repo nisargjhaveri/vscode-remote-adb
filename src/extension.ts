@@ -4,6 +4,11 @@ import { TcpDeviceManager } from 'remote-adb/client';
 import { RemoteAdbDeviceWrapper, RemoteAndroidDeviceListManager } from './remoteAndroidDevices';
 import { logger } from './logger';
 
+function logAndShowError(message: string) {
+	logger.error(message);
+	vscode.window.showErrorMessage(message);
+}
+
 export function activate(context: vscode.ExtensionContext) {
 	setRemoteAdbLogger(logger);
 
@@ -13,11 +18,19 @@ export function activate(context: vscode.ExtensionContext) {
 	});
 
 	context.subscriptions.push(vscode.commands.registerCommand('remote-adb.connectDevice', async (treeItem: RemoteAdbDeviceWrapper) => {
-		await remoteAndroidDeviceListManager.connect(treeItem);
+		try {
+			await remoteAndroidDeviceListManager.connect(treeItem);
+		} catch (e: any) {
+			logAndShowError("Failed to connect to device: " + e.message);
+		}
 	}));
 
 	context.subscriptions.push(vscode.commands.registerCommand('remote-adb.disconnectDevice', async (treeItem: RemoteAdbDeviceWrapper) => {
-		await remoteAndroidDeviceListManager.disconnect(treeItem);
+		try {
+			await remoteAndroidDeviceListManager.disconnect(treeItem);
+		} catch (e: any) {
+			logAndShowError("Failed to disconnect device: " + e.message);
+		}
 	}));
 
 	context.subscriptions.push(vscode.commands.registerCommand('remote-adb.addTcpDevice', async () => {
@@ -32,7 +45,7 @@ export function activate(context: vscode.ExtensionContext) {
 		let device = await TcpDeviceManager.createDevice(serial);
 
 		if (!device) {
-			throw new Error(`Cannot connect to '${serial}'. Please enter a valid hostname and port to connect`);
+			logAndShowError(`Cannot connect to '${serial}'. Please enter a valid hostname and port to connect`);
 		}
 	}));
 
