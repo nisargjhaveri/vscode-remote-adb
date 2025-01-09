@@ -5,7 +5,7 @@ Use local Android devices or emulators for debugging when using [VS Code Remote 
 ![Screenshot showing Remote Android view for connecting local android devices](./images/screenshot.png)
 
 ## Features
-- Connect and share locally connected Android devices directly from VS Code.
+- Connect and share locally connected Android devices directly from VS Code, using the [remote-adb](https://www.npmjs.com/package/remote-adb) utility.
 - Share wireless or USB connected device including locally running Android Emulators.
 - Connected devices are available for debugging using any tools on the remote machine via `adb`.
 
