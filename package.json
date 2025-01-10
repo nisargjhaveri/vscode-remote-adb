@@ -39,7 +39,7 @@
 		"viewsWelcome": [
 			{
 				"view": "remote-adb",
-				"contents": "Welcome to Remote Android Debugging. Your connected devices will show up here."
+				"contents": "No locally connected Android devices or emulator found."
 			}
 		],
 		"menus": {
