@@ -52,8 +52,8 @@
 			],
 			"view/item/context": [
 				{
-					"command": "remote-adb.removeTcpDevice",
-					"when": "viewItem =~ /;removable;/",
+					"command": "remote-adb.copyRemoteSerial",
+					"when": "viewItem =~ /;connected;/",
 					"group": "inline@1"
 				},
 				{
@@ -67,16 +67,24 @@
 					"group": "inline@2"
 				},
 				{
-					"command": "remote-adb.removeTcpDevice",
-					"when": "viewItem =~ /;removable;/"
-				},
-				{
 					"command": "remote-adb.connectDevice",
-					"when": "viewItem =~ /;disconnected;/"
+					"when": "viewItem =~ /;disconnected;/",
+					"group": "navigation@1"
 				},
 				{
 					"command": "remote-adb.disconnectDevice",
-					"when": "viewItem =~ /;connected;/"
+					"when": "viewItem =~ /;connected;/",
+					"group": "navigation@1"
+				},
+				{
+					"command": "remote-adb.removeTcpDevice",
+					"when": "viewItem =~ /;removable;/",
+					"group": "navigation@2"
+				},
+				{
+					"command": "remote-adb.copyRemoteSerial",
+					"when": "viewItem =~ /;connected;/",
+					"group": "1_copy"
 				}
 			]
 		},
@@ -96,8 +104,14 @@
 				"enablement": "view == remote-adb"
 			},
 			{
+				"command": "remote-adb.copyRemoteSerial",
+				"title": "Copy remote serial",
+				"icon": "$(copy)",
+				"enablement": "view == remote-adb"
+			},
+			{
 				"command": "remote-adb.addTcpDevice",
-				"title": "Add TCP Device",
+				"title": "Add TCP device",
 				"icon": "$(plus)",
 				"category": "Remote Android"
 			},

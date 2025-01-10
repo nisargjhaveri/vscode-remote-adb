@@ -33,6 +33,12 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 	}));
 
+	context.subscriptions.push(vscode.commands.registerCommand('remote-adb.copyRemoteSerial', async (treeItem: RemoteAdbDeviceWrapper) => {
+		if (treeItem?.device?.remoteSerial) {
+			await vscode.env.clipboard.writeText(treeItem.device.remoteSerial);
+		}
+	}));
+
 	context.subscriptions.push(vscode.commands.registerCommand('remote-adb.addTcpDevice', async () => {
 		let serial = await vscode.window.showInputBox({
 			"title": "Add a device via TCP/IP",
