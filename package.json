@@ -110,16 +110,17 @@
 				"enablement": "view == remote-adb"
 			},
 			{
-				"command": "remote-adb.addTcpDevice",
-				"title": "Add TCP device",
-				"icon": "$(plus)",
-				"category": "Remote Android"
-			},
-			{
 				"command": "remote-adb.removeTcpDevice",
 				"title": "Remove device",
 				"icon": "$(trash)",
 				"enablement": "view == remote-adb"
+			},
+			{
+				"command": "remote-adb.addTcpDevice",
+				"title": "Add TCP device",
+				"icon": "$(plus)",
+				"category": "Remote Android",
+				"enablement": "remoteName"
 			}
 		]
 	},
